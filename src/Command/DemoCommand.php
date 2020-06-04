@@ -75,7 +75,7 @@ class DemoCommand extends Command
 
         // now read it back into a product
         /** @var Product $product2 */
-        $product2 = $this->serializer->deserialize($xml, Product::class, 'xml');
+        $product2 = $this->serializer->deserialize($xml, Product::class, 'xml', ['xml_root_node_name' => 'product'] );
         if ($product2->getDescription() === $product->getDescription()) {
             $io->success("deserialize success!");
         } else {
@@ -110,9 +110,16 @@ class DemoCommand extends Command
 
         $deserializedProduct = $serializer->deserialize($xml, Product::class, 'xml');
         if ($deserializedProduct->getDescription() === $product->getDescription()) {
-            $io->success("deserialize with ObjectNormalizer success!");
+            $io->success("deserialize an attribute with ObjectNormalizer success, using @SerializedName in Entity class!");
         } else {
             $io->error("deserialize with ObjectNormalizer did not work :-(");
         }
+
+        if ($deserializedProduct->getProperties()->count()  === 2 ) {
+            $io->success("2 Properties deserialized ");
+        } else {
+            $io->error("deserialize Properties did not work.");
+        }
+
     }
 }
