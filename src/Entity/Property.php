@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
@@ -18,11 +19,13 @@ class Property
 
     /**
      * @ORM\Column(type="string", length=32)
+     * @SerializedName("@name")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @SerializedName("#")
      */
     private $value;
 
