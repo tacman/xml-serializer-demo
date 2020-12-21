@@ -1,7 +1,7 @@
 App\Entity\Product:
   attributes:
     description:
-#      serialized_name: '@description'
+      serialized_name: '@description'
       groups: ['xml']
     properties:
       serialized_name: 'property'

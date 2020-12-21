@@ -23,12 +23,12 @@ class Product
      * @ORM\Column(type="string", length=255)
      * @SerializedName("@description")
      */
-    private $description;
+    public $description;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Property", mappedBy="product", orphanRemoval=true)
      */
-    private $properties;
+    public $properties;
 
     public function __construct()
     {

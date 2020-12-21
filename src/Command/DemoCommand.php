@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class DemoCommand extends Command
 {
-    protected static $defaultName = 'app:demo';
+    protected static $defaultName = 'app:bug';
 
     private $serializer;
     public function __construct(SerializerInterface $serializer, string $name = null)
@@ -35,7 +35,7 @@ class DemoCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Add a short description for your command')
+            ->setDescription('Show the bug')
             ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
             ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
         ;
@@ -44,8 +44,7 @@ class DemoCommand extends Command
     private function getProductEntity(): Product
     {
         $product = (new Product())
-            ->setDescription("Wool sweater");
-        $product
+            ->setDescription("Wool sweater")
             ->addProperty((new Property())->setName('color')->setValue('blue'))
             ->addProperty((new Property())->setName('size')->setValue('small'))
             ;
@@ -76,10 +75,10 @@ class DemoCommand extends Command
         // now read it back into a product
         /** @var Product $product2 */
         $product2 = $this->serializer->deserialize($xml, Product::class, 'xml', ['xml_root_node_name' => 'product'] );
-        if ($product2->getDescription() === $product->getDescription()) {
+        if ($product2->getDescription() == $product->getDescription()) {
             $io->success("deserialize success!");
         } else {
-            $io->error("deserialize did not work :-(");
+            $io->error($xml . " deserialize did not work :-(");
         }
 
         $this->trySomeHacks($io, $product);
@@ -96,13 +95,13 @@ class DemoCommand extends Command
         $normalizers = [new ObjectNormalizer($classMetadataFactory, $metadataAwareNameConverter)];
         $serializer = new Serializer($normalizers, $encoders);
 
-        $xml = '<property name="length">32</property>';
+        $xml = "<property name='length'>32</property>";
         $object = $serializer->deserialize($xml, Property::class, 'xml');
 
         if ($object->getName() === 'length') {
-            $io->success('Works!');
+            $io->success($xml . ' Works!');
         } else {
-            $io->error('Not working');
+            $io->error($xml . ' Not working');
         }
 
         $product = $this->getProductEntity();
